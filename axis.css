@@ -1,0 +1,98 @@
+/* 庶政学 · 文献视图右侧的实时坐标系
+   指针在左边读哪一段，右边这套坐标就滑到那一段在讲的位置。 */
+
+/* 文献视图原来是两栏：侧栏 + 正文。这里给实时坐标系加上第三栏。
+   reader.css 先于本文件加载，所以在同一层叠上直接覆盖即可。 */
+@media (min-width:1181px){
+  .reader{ grid-template-columns:16.5rem minmax(0,1fr) 21rem; }
+}
+
+.reader-axis{
+  position:sticky;
+  top:3.4rem;
+  align-self:start;
+  display:flex;
+  flex-direction:column;
+  gap:.7rem;
+  padding:var(--pad);
+  border-left:1px solid var(--line-soft);
+  background:var(--bg-2);
+  min-width:0;
+}
+
+.ax-head{ min-width:0; }
+.ax-kicker{
+  margin:0 0 .35rem;
+  font-family:var(--f-mono);
+  font-size:.64rem;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.ax-title{
+  margin:0;
+  font-family:var(--f-display);
+  font-size:1.02rem;
+  line-height:1.3;
+  color:var(--ink);
+}
+.ax-sub{
+  margin:.28rem 0 0;
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  line-height:1.55;
+  color:var(--ink-3);
+  overflow-wrap:anywhere;
+}
+
+.ax-canvas{ height:clamp(10.5rem,23vh,16rem); min-height:9rem; }
+#axPlot{
+  display:block;
+  width:100%;
+  height:100%;
+  border:1px solid var(--line-soft);
+  border-radius:3px;
+  background:var(--bg);
+}
+
+.ax-foot{ min-width:0; }
+.ax-note{
+  margin:0;
+  font-size:.78rem;
+  line-height:1.6;
+  color:var(--ink-2);
+}
+.ax-hint{
+  margin:.35rem 0 0;
+  font-size:.68rem;
+  line-height:1.5;
+  color:var(--ink-3);
+}
+
+/* 被指到的段落：给一个极淡的底色，让人知道右边在讲哪一段 */
+.blk.ax-on{ background:oklch(0.28 0.02 70 / .55); border-radius:3px; }
+
+/* ---------- 响应式 ---------- */
+@media (max-width:1180px){
+  .reader{ grid-template-columns:16.5rem minmax(0,1fr); }
+  .reader-axis{
+    grid-column:1 / -1;
+    grid-row:1;
+    flex-direction:row;
+    align-items:stretch;
+    gap:1.1rem;
+    border-left:0;
+    border-bottom:1px solid var(--line-soft);
+    padding-top:.9rem;
+    padding-bottom:.9rem;
+  }
+  .ax-head{ flex:0 0 13rem; }
+  .ax-canvas{ flex:0 0 16rem; height:auto; min-height:8rem; }
+  .ax-foot{ flex:1 1 auto; align-self:center; }
+}
+@media (max-width:900px){
+  .reader-axis{ flex-direction:column; }
+  .ax-head,.ax-canvas{ flex:0 0 auto; }
+  .ax-canvas{ height:11rem; width:100%; }
+}

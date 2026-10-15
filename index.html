@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>庶政学 · 数理政治哲学的标准模型</title>
+<meta name="description" content="把政治意识形态、政治观、政治立场、政治路线写成基本初等函数的交互式光谱模型。">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="reader.css">
+<link rel="stylesheet" href="axis.css">
+</head>
+<body>
+
+<header class="masthead">
+  <p class="eyebrow">Mathematical Political Philosophy · MPP</p>
+  <h1>庶政学</h1>
+  <p class="lede">把政治意识形态、政治观、政治立场、政治路线，写成基本初等函数。</p>
+  <p class="provenance">
+    整理自 B 站「庶政学」系列与专题逐字稿，共 13 讲。全部讲次的结构化讲义在
+    <strong>文献</strong>视图里，可按概念检索、按时间锚点跳回原片；单篇整理稿另见
+    <a href="庶政学文稿整理.md">庶政学文稿整理.md</a>。
+  </p>
+</header>
+
+<main>
+
+<nav class="viewtabs" role="tablist" aria-label="视图">
+  <button type="button" class="view-tab" data-view="model" role="tab" aria-pressed="true">
+    <span class="vt-name">模型</span><span class="vt-note">函数族 · 专家策略台</span>
+  </button>
+  <button type="button" class="view-tab" data-view="read" role="tab" aria-pressed="false">
+    <span class="vt-name">文献</span><span class="vt-note">13 讲讲义 · 全文检索</span>
+  </button>
+</nav>
+
+<div id="view-model">
+
+<!-- ============ 交互模型 ============ -->
+<section class="instrument" aria-label="政治光谱函数模型">
+
+  <div class="rail rail-left">
+    <div class="rail-head">
+      <h2>函数族</h2>
+      <p class="hint">基本初等函数即政治模型的类型表</p>
+    </div>
+    <div id="library" class="library" role="group" aria-label="函数族列表"></div>
+
+    <div id="paramBox" class="param-box"></div>
+
+    <div class="switches">
+      <button type="button" id="swDeriv" class="switch" aria-pressed="false">
+        <span class="switch-name">求导</span>
+        <span class="switch-note">意识形态化</span>
+      </button>
+      <button type="button" id="swInverse" class="switch" aria-pressed="false">
+        <span class="switch-name">反函数</span>
+        <span class="switch-note">政治立场与路线</span>
+      </button>
+      <button type="button" id="swParallax" class="switch" aria-pressed="false" hidden>
+        <span class="switch-name">视差</span>
+        <span class="switch-note">左翼的双重视图</span>
+      </button>
+      <button type="button" id="swViolence" class="switch" aria-pressed="false">
+        <span class="switch-name">虚数轴</span>
+        <span class="switch-note">暴力与代价 · 权力学</span>
+      </button>
+      <button type="button" id="btnReset" class="switch switch-plain">
+        <span class="switch-name">复位</span>
+        <span class="switch-note">回到初始曲线</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="stage">
+    <div class="canvas-wrap">
+      <canvas id="plot" role="img" aria-label="纲领化与行动性平面上的政治函数模型图"></canvas>
+      <p class="axis-caption axis-caption-x"><span class="k k-program">纲领化</span> →</p>
+    </div>
+    <div class="stage-foot">
+      <div class="legend" aria-hidden="true">
+        <span><i class="dot dot-curve"></i>政治模型</span>
+        <span><i class="dot dot-deriv"></i>意识形态化（求导）</span>
+        <span><i class="dot dot-probe"></i>探针</span>
+        <span><i class="dot dot-unit"></i>单元性 y=1</span>
+      </div>
+      <p class="hint">在图上移动指针，或在选中后按 ← → 移动探针。点击可固定。</p>
+    </div>
+  </div>
+
+  <aside class="rail rail-right" id="readout"></aside>
+
+</section>
+
+<!-- ============ 说明与谱系 ============ -->
+<section class="prose" id="howto">
+  <p class="sec-num">01</p>
+  <h2>怎么读这张图</h2>
+  <p>
+    平面只有两个范畴，也就是文稿说的“两个关键字”：<strong>纲领</strong>与<strong>行动</strong>。
+    横轴向右是纲领化，“要制定纲领，要有纲领”；向左是去纲领化，也是习俗化，“不要纲领，服从于习俗，服从于浑浑噩噩的规则”。
+    纵轴向上是无对价的行动，行动“不要钱”“不计后果”“不计代价”；向下是有对价的行动，即“计较利害的行动”。
+    再往下走，文稿把这一侧一路排到腐化、享乐，直到“纯粹的自然法则”“能量守恒定律”。
+  </p>
+  <p>
+    图上另有一条看不见的刻度线：<span class="k k-program">y = 1</span>，一个单元。
+    在文稿的读法里，一个政治体承认的善、承认的自私，都是一个单元的量，“你可以有算计，但是你不能太算计”。
+    超出单元不是更强，而是换了一种东西：在三角函数那里，它就是统治区间的边界，越界即非法。
+  </p>
+  <p>四个象限各有俗称：</p>
+  <div class="quad-table">
+    <table>
+      <caption class="visually-hidden">四象限的通俗读法</caption>
+      <thead><tr><th>象限</th><th>纲领</th><th>行动</th><th>文稿给出的俗称</th></tr></thead>
+      <tbody>
+        <tr><td>右上</td><td>有纲领</td><td>无对价行动</td><td>深谋远虑，很有计划，很有方向；“说不定就是判刑”</td></tr>
+        <tr><td>左上</td><td>不要纲领</td><td>无对价行动</td><td>圣人，不计代价的善</td></tr>
+        <tr><td>左下</td><td>不要纲领</td><td>对价行动</td><td>庸俗，腐化，市侩</td></tr>
+        <tr><td>右下</td><td>有纲领</td><td>对价行动</td><td>算计，功利主义</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="prose" id="registers">
+  <p class="sec-num">02</p>
+  <h2>四重性与两种运算</h2>
+  <p>
+    文稿说，一个政治模型是四重的：<em>意识形态</em>（ideology）、<em>政治观</em>、<em>政治立场</em>、<em>政治路线</em>（行动路线）。
+    “你对一个政治观做某种运算函数运算，它就会变成一种意识形态，然后对政治立场做某种函数运算，它就会成为一个政治路线。”
+    这两种运算在文稿里有一个名字：<strong>求导</strong>。“一求导就是意识形态化。”
+  </p>
+  <p>
+    函数族之间的关系不是并列，而是互为反函数：指数与对数互反，三角与反三角互反。文稿反复用这件事区分政治类型：
+    对数过 <span class="mono">(1,0)</span>，指数过 <span class="mono">(0,1)</span>，“这也代表他们的这个政治立场的色彩有一个实质性的差别”。
+  </p>
+  <p class="marked">
+    <span class="tag">补</span>本页把四重性实现为两条运算链：政治观 <span class="mono">f(x)</span> 经求导得到意识形态
+    <span class="mono">f′(x)</span>；政治立场取作反函数族 <span class="mono">f⁻¹(x)</span>，其导数
+    <span class="mono">(f⁻¹)′(x)</span> 就是政治路线。路线因此是一个方向：立场对纲领变化的响应。
+    文稿没有写出这一步算式，反函数读法由本页补足。
+  </p>
+</section>
+
+<section class="prose" id="typology">
+  <p class="sec-num">03</p>
+  <h2>函数类型学</h2>
+  <p>文稿逐族给出了读法。下表只收录它明说的对应，留白处不代为判定。</p>
+  <div class="table-scroll">
+    <table class="typology">
+      <caption class="visually-hidden">函数族与政治类型的对应</caption>
+      <thead>
+        <tr><th>函数族</th><th>特征点</th><th>政治类型</th><th>文稿原话</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="mono">y = x<sup>a</sup></td>
+          <td class="mono">(1,1)</td>
+          <td>机械和谐，古典（经典）理性主义。启蒙时代从习俗中觉醒的立场都过这一点</td>
+          <td>“我们把它看成是个和谐点，或者他是个机械的和谐点。”“我良好的单元性的纲领，意味着良好的单元性的行动。”</td>
+        </tr>
+        <tr>
+          <td class="mono">y = log<sub>a</sub> x</td>
+          <td class="mono">(1,0)</td>
+          <td>康德式理性主义，启蒙化的保守主义，现代保守</td>
+          <td>“有单元性的一个纲领的状态，反而是无行动的。”“你知道足够多，但是你可以不做事情。”</td>
+        </tr>
+        <tr>
+          <td class="mono">y = a<sup>x</sup></td>
+          <td class="mono">(0,1)</td>
+          <td>前现代保守，对纲领持怀疑；a 为整数且大于一时是乐观主义与进步主义；a = e 是自然状态</td>
+          <td>“当人处于无纲领状态的时候……才会有单元性的行动。”“它也是一种乐观主义……也是一种进步主义。”</td>
+        </tr>
+        <tr>
+          <td class="mono">y = cos x</td>
+          <td class="mono">(0,1)</td>
+          <td>朴素道德点出发的周期性统治区间，文稿读作新自由主义保守主义</td>
+          <td>“他是个道德主义点……朴素道德点。”“这个函数把政治活动的运行区间限制在一和一之间。”</td>
+        </tr>
+        <tr>
+          <td class="mono">y = tan x</td>
+          <td class="mono">(0,0)</td>
+          <td>断裂性政治，如托洛茨基主义；左翼的视差机制</td>
+          <td>“左翼意识形态的特点，就是说不认为自己是一个图像的图像。”“别人看他和他看自己不一样……意味着一个视差。”</td>
+        </tr>
+        <tr>
+          <td class="mono">y = arctan x<br>y = arcsin x</td>
+          <td class="mono">(0,0) / (0,0)</td>
+          <td>纲领性的边界，人为周期对自然周期</td>
+          <td>“纲领性的边界。”“我们会逆周期，而不是顺应什么经济的自然周期。”</td>
+        </tr>
+        <tr>
+          <td class="mono">y = c</td>
+          <td class="mono">整条线</td>
+          <td>习俗</td>
+          <td>“他就是一个习俗。”“意识形态和政治立场统一……这两个函数它取导数是同一的。”</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="prose" id="constants">
+  <p class="sec-num">04</p>
+  <h2>两个常数：e 与 π</h2>
+  <p>
+    文稿要求记住：“E 和 π 这两个无理数在里面的一个重要的作用。”它们不是装饰性的数学常数，各自指一种政治事态。
+  </p>
+  <p>
+    <strong>e</strong> 是自然习俗性的秩序。指数函数求导还是它自己，所以文稿说 <span class="mono">e<sup>x</sup></span> 是一种没有意识形态状态，
+    “或者说它的意识形态就是他自己”。底里有 e，就等于底里带了一层带象征的自然习俗性秩序。
+  </p>
+  <p>
+    <strong>π</strong> 在这一页里不是数学数字，而是“一种政治意向性，政治意识”：对周期性有明确认知、对自然周期与人为周期的矛盾有明确认知的政治意识，
+    也就是明确的党派化、集群化、理论化、行动化的政治意识。文稿给它的发生路径是一条几何化的路线：
+    <span class="mono">y = ln x → y = x → y = kx → x² + y² = 1</span>，让斜率转一整圈，圆就诞生了。
+  </p>
+</section>
+
+<section class="prose" id="parallax">
+  <p class="sec-num">05</p>
+  <h2>断裂、视差，与一幅不认为自己是图像的图像</h2>
+  <p>
+    把左与右放在同一幅图上互相对立，在文稿看来是低幼的做法。真正的左翼图景“不认为自己是一个图像的图像”：
+    在阶级敌人眼里，它是一条中心对称、连续、甚至虚伪地对称的曲线，围绕着一个行动为零的点展开；
+    在它自己眼里，它是两极极端对立的断裂。两种看法不能互相还原，这就是视差。
+    选中 <span class="mono">y = tan x</span> 后打开“视差”，可以在同一张图上切换这两个视角。
+  </p>
+  <p>
+    断裂还有两种来源，文稿分得很清楚：自然周期带来的断裂，与人为周期带来的断裂，即连续与无限的差别。
+    反三角函数之所以“断裂性更明显”，是因为它的边界是纲领性的边界：用明确的政治计划、五年计划、逆周期，
+    为政治活动和政治路线设定边界，而不是顺应经济的自然周期。
+  </p>
+</section>
+
+<section class="prose" id="third-axis">
+  <p class="sec-num">06</p>
+  <h2>第三轴：从这里开始，庶政学结束</h2>
+  <p>
+    二维的经典体系里没有暴力，“每一个政治意识形态在这个上面都会标榜自己不是专门坏的，目的还是追求共同的善的”。
+    要落到现实，就要加上第三轴，也就是虚数轴。虚数来自负数开平方，而 <span class="mono">i² = −1</span> 在文稿里意味着
+    “所有的行动都会具有一个反作用的代价”。打开左侧的“虚数轴”可以看到这一层被标注出来。
+  </p>
+  <p>
+    加上它，模型就“再明确点是统治权力的模型”，而作者同时声明：“他就不是庶政学，他就是权力学。”
+    但他也承认，这一层这一讲并没有做——文稿只说这个体系“我会慢慢更新”，三轴暴力模型是前向预告。
+  </p>
+  <p>
+    把这一层补上的是 <a href="#" class="xref" data-ep="E02">E02《权力的三个基本性质》</a>：权力必须有<strong>质</strong>、
+    只能是<strong>概率性</strong>的、必须保证<strong>秘密性</strong>。这三条并不另立坐标，而是各占已有的一条轴：
+  </p>
+  <div class="table-scroll">
+    <table class="typology">
+      <caption class="visually-hidden">权力的三条性质各读哪条轴</caption>
+      <thead><tr><th>性质</th><th>读哪条轴</th><th>平面上的读法</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>质</td>
+          <td class="mono">纵轴 · 对价侧</td>
+          <td>线上（无对价、不计代价）只有第一人称报告，没有质；线下每深一个单元，可质押的物重一档</td>
+        </tr>
+        <tr>
+          <td>秘密性</td>
+          <td class="mono">横轴 · 纲领↔习俗</td>
+          <td>纲领一侧，秘密以制度与档案存在；习俗一侧，秘密以默契与丑闻存在</td>
+        </tr>
+        <tr>
+          <td>概率性</td>
+          <td class="mono">第三轴本身</td>
+          <td>不落在平面上任何一点，它是对整个平面的限定：曲线只给趋势，趋势不是担保</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="marked">
+    <span class="tag">补</span>E02 通篇不说纲领、习俗、对价——它的原始转写稿里这几个词零出现。
+    所以上面这张对应表是本页的补足，不是作者的话；每一格判语旁边都挂着文稿出处，点按可跳到
+    <strong>文献</strong>视图的对应段落。开着“虚数轴”拖动探针，右栏的三条性质会跟着读数一起变。
+  </p>
+  <p>
+    同一类运算还带出另一个议题：根号与无理数。文稿说“根号无理化性”，一切无理化的运算都与性、与享乐相关，
+    因此这套模型也可以用来解释性权利与性政治，只是要先处理三轴问题的最简单模式。
+  </p>
+</section>
+
+<section class="prose" id="contrast">
+  <p class="sec-num">07</p>
+  <h2>低幼模型与函数模型</h2>
+  <div class="table-scroll">
+    <table class="contrast">
+      <caption class="visually-hidden">两种建模阶次的差别</caption>
+      <thead><tr><th></th><th>坐标系＋点位</th><th>基本初等函数</th></tr></thead>
+      <tbody>
+        <tr><td>数学阶次</td><td>初中：斜率、比值、位置</td><td>高中与高等数学：函数族、周期、反函数、导数</td></tr>
+        <tr><td>符号学阶次</td><td>孤立点连缀起来的表象</td><td>趋势本身，以及趋势的运算</td></tr>
+        <tr><td>政治对象</td><td>把左与右摆在同一幅图上</td><td>图的同一性本身可以成问题</td></tr>
+        <tr><td>对行动的处理</td><td>既不敢搞纲领，也不敢行动</td><td>纲领与行动是两个坐标，越界即非法</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="prose" id="notes">
+  <p class="sec-num">08</p>
+  <h2>从文稿到模型：一条明确的边界</h2>
+  <ul class="notes-list">
+    <li>「庶政学」系列 12 讲、约 16 小时的 AI 字幕已经逐讲整理成讲义，放在<strong>文献</strong>视图里：可全文检索、按概念索引跳转、按时间锚点回到原片。机械预处理稿保留在 <span class="mono">原文/</span> 以便复核。</li>
+    <li>视频是即兴口述，转写稿含大量重复、口误与同音错字。引号内的句子来自转写稿，已按各讲校勘表改正明显的同音错字。</li>
+    <li><span class="tag">补</span> 标记的段落是本页的形式化补足：反函数读作政治立场与政治路线、坐标系上的自动标注、策略台的规则链与适配度打分。凡有出处的规则都可以点按跳到该讲对应段落。</li>
+    <li>文稿提到纳粹主义、工团主义、民族主义、国家主义时，只说模型可以判定它们“以什么样的函数、什么样的一个趋势运动到那个级”，没有指定具体函数。本页因此不为它们指定曲线。</li>
+    <li>文稿中的数学陈述保留原样，包括作者自述需要重新研究的部分，例如三角函数的周期位置与反函数细节。</li>
+  </ul>
+</section>
+
+<section class="prose" id="index">
+  <p class="sec-num">09</p>
+  <h2>文献索引</h2>
+  <p>这套模型不是一张孤立的图：下面 12 讲讲义是它的全部文本依据。点任一讲即切到<strong>文献</strong>视图，可用概念检索，也可以按时间锚点跳回原片。</p>
+  <div class="doc-index">
+    <div>
+      <p class="doc-index-title">预备工作<span>七讲基本建设</span></p>
+      <ol>
+        <li><a href="#" class="xref" data-ep="E12">E12 庶政学的基本要素</a></li>
+        <li><a href="#" class="xref" data-ep="E11">E11 复合要素</a></li>
+        <li><a href="#" class="xref" data-ep="E10">E10 乌托邦、天国、世俗享乐、敌托邦</a></li>
+        <li><a href="#" class="xref" data-ep="E09">E09 建制、美德、统治、生存：四种客观极限</a></li>
+        <li><a href="#" class="xref" data-ep="E08">E08 九连环：前现代政治斗争的根本模型</a></li>
+        <li><a href="#" class="xref" data-ep="E07">E07 理解人类的一切制度</a></li>
+        <li><a href="#" class="xref" data-ep="E06">E06 看透人类的一切行为</a></li>
+      </ol>
+    </div>
+    <div>
+      <p class="doc-index-title">核心论题<span>四讲专题</span></p>
+      <ol>
+        <li><a href="#" class="xref" data-ep="E02">E02 权力的三个基本性质</a></li>
+        <li><a href="#" class="xref" data-ep="E03">E03 个人与共同体的纽结：籍</a></li>
+        <li><a href="#" class="xref" data-ep="E01">E01 反抗运动中的等级制与伪革命者</a></li>
+        <li><a href="#" class="xref" data-ep="E05">E05 X=1，现代政治的基点</a></li>
+      </ol>
+      <p class="doc-index-title" style="margin-top:1.2rem">标准模型<span>一讲总纲</span></p>
+      <ol>
+        <li><a href="#" class="xref" data-ep="E13">E13 数理政治哲学的标准模型</a></li>
+      </ol>
+      <p class="doc-index-title" style="margin-top:1.2rem">专题<span>逐字稿专场</span></p>
+      <ol>
+        <li><a href="#" class="xref" data-ep="E14">E14 现代权力与政治：权力动力学、政治静力学、派系形态学</a></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+</div><!-- /view-model -->
+
+<!-- ============ 文献阅读 ============ -->
+<section id="view-reader" hidden aria-label="庶政学文献阅读">
+  <div class="reader">
+    <aside class="reader-side">
+      <div class="reader-search">
+        <label class="visually-hidden" for="q">全文检索</label>
+        <input id="q" type="search" placeholder="全文检索：籍 / 对价 / 九连环 …" autocomplete="off">
+        <p class="hint" id="qStat"></p>
+        <div id="results" class="results" hidden></div>
+      </div>
+      <nav id="epList" class="ep-list" aria-label="讲次"></nav>
+      <div id="conceptBox" class="concept-box"></div>
+    </aside>
+    <article class="reader-main">
+      <header class="ep-head" id="epHead"></header>
+      <div class="ep-toc" id="epToc"></div>
+      <div class="ep-body" id="epBody"></div>
+    </article>
+    <aside class="reader-axis" id="readerAxis" aria-label="实时坐标系">
+      <div class="ax-head">
+        <p class="ax-kicker">实时坐标系</p>
+        <p class="ax-title" id="axTitle">坐标平面</p>
+        <p class="ax-sub" id="axSub">纲领化 × 行动性</p>
+      </div>
+      <div class="ax-canvas"><canvas id="axPlot" role="img" aria-label="与左侧段落对应的函数曲线与探针位置"></canvas></div>
+      <div class="ax-foot">
+        <p class="ax-note" id="axNote">把指针移到左边的段落上。</p>
+        <p class="ax-hint" id="axHint"></p>
+      </div>
+    </aside>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p>庶政学 · 数理政治哲学标准模型（MPP）。本页为文稿整理与建模练习，不构成任何政治主张。</p>
+</footer>
+
+<noscript><p class="prose">本页的交互模型需要 JavaScript。</p></noscript>
+<script src="texts.js"></script>
+<script src="strategy.js"></script>
+<script src="power.js"></script>
+<script src="axis-map.js"></script>
+<script src="axis.js"></script>
+<script src="reader.js"></script>
+<script src="model.js"></script>
+</body>
+</html>
