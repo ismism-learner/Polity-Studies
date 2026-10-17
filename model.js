@@ -315,6 +315,7 @@
     parallax: false,
     violence: false,
     nine: false,
+    subject: 'group',
     probeX: null,
     pinned: false,
     dragging: false,
@@ -901,6 +902,15 @@
     var libEl = document.getElementById('library');
     var paramEl = document.getElementById('paramBox');
     var readEl = document.getElementById('readout');
+    /* 「这个点代表谁」：委托绑定，右栏重建后依然有效 */
+    if (readEl) {
+      readEl.addEventListener('click', function (ev) {
+        var b = (ev.target && ev.target.closest) ? ev.target.closest('[data-subject]') : null;
+        if (!b) return;
+        state.subject = b.getAttribute('data-subject');
+        renderPanel(); syncHash();
+      });
+    }
     var swDeriv = document.getElementById('swDeriv');
     var swInverse = document.getElementById('swInverse');
     var swParallax = document.getElementById('swParallax');
@@ -990,6 +1000,7 @@
       if (state.parallax) parts.push('par=1');
       if (state.violence) parts.push('vio=1');
       if (state.nine) parts.push('nine=1');
+      if (state.subject && state.subject !== 'group') parts.push('sub=' + state.subject);
       if (state.probeX !== null && state.probeX !== undefined) parts.push('px=' + state.probeX);
       var on = [];
       for (var l in state.lenses) if (Object.prototype.hasOwnProperty.call(state.lenses, l) && state.lenses[l]) on.push(l);
@@ -1048,6 +1059,9 @@
       state.parallax = q.par === '1' && !!m.parallax;
       state.violence = q.vio === '1';
       state.nine = q.nine === '1';
+      if (q.sub && global.SHUZHENG_POINT) {
+        state.subject = q.sub;
+      }
       applyHalfX();
       if (swNine) swNine.setAttribute('aria-pressed', state.nine ? 'true' : 'false');
       syncCaption();
@@ -1094,6 +1108,16 @@
         + '<p class="ro-family">' + m.family + '</p>'
         + '<p class="ro-expr">' + m.expr + '</p>'
         + '<p class="ro-type">' + m.type + '</p></div>';
+
+      /* ---- 这个点在说什么：点的解释引擎（先读数，后策略） ---- */
+      var PT = global.SHUZHENG_POINT;
+      if (PT) {
+        html += PT.toHTML(PT.read(x, y, {
+          unit: state.unit, subject: state.subject,
+          quad: q, modelId: state.id, modelType: m.type,
+          deriv: d.ideo, dExpr: m.dExpr(p)
+        }));
+      }
 
       /* ---- 第三轴＝虚数轴＝暴力。E13 说加上它「他就是权力学」，但那一层本讲没做；
               E02 的三条性质就是这一层。它读的是整个平面，所以放在策略台之前。 ---- */
@@ -1171,6 +1195,9 @@
       var keepScroll = readEl.scrollTop;
       readEl.innerHTML = html;
       readEl.scrollTop = keepScroll;
+
+      /* 「这个点代表谁」：切的是切线的解释，不动曲线 */
+      /* 事件用委托绑在 readEl 上，重建不变 */
 
       /* 视角与尺度改变时只重画面板，不动曲线 */
       readEl.querySelectorAll('.lens').forEach(function (b) {

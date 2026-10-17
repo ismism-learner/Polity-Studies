@@ -194,3 +194,63 @@
 .ro-more[open] > summary::before{ content:"▾ "; }
 .ro-more > summary:hover{ color:var(--ink-2); }
 .ro-more .ro-block{ border-bottom:0; padding-bottom:.6rem; }
+
+/* ---------- 这个点在说什么：右栏顶部的解释块 ---------- */
+.pt-block{
+  margin:0 0 1.1rem;
+  padding:.75rem .8rem .7rem;
+  background:var(--bg-3);
+  border:1px solid var(--line);
+  border-radius:3px;
+}
+.pt-kicker{
+  margin:0 0 .35rem;
+  font-family:var(--f-mono);
+  font-size:.62rem;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.pt-head{
+  margin:0 0 .55rem;
+  font-family:var(--f-display);
+  font-size:1.02rem;
+  line-height:1.42;
+  color:var(--ink);
+}
+.pt-subjects{ display:flex; flex-wrap:wrap; gap:.25rem; margin:.45rem 0 .1rem; }
+.pt-sub{
+  padding:.16rem .5rem;
+  border:1px solid var(--line);
+  border-radius:2px;
+  background:none;
+  color:var(--ink-3);
+  font-family:var(--f-body);
+  font-size:.72rem;
+  cursor:pointer;
+  transition:color .15s var(--ease), border-color .15s var(--ease), background-color .15s var(--ease);
+}
+.pt-sub:hover{ color:var(--ink); border-color:var(--ink-3); }
+.pt-sub[aria-pressed="true"]{ color:var(--program); border-color:var(--program); background:var(--bg-2); }
+.pt-sub:focus-visible{ outline:2px solid var(--program); outline-offset:2px; }
+
+/* 这个点的读数里，值是长句：改成标签在上、值在下，不再用两列挤压 */
+.pt-block .ro-row{
+  display:block;
+  padding:.38rem 0;
+}
+.pt-block .ro-row dt{
+  font-family:var(--f-mono);
+  font-size:.62rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+  margin:0 0 .15rem;
+}
+.pt-block .ro-row dd{
+  font-family:var(--f-body);
+  font-size:.82rem;
+  line-height:1.65;
+  color:var(--ink-2);
+}
+.pt-block .ro-row dd .why{ margin-top:.2rem; }

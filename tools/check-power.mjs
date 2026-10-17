@@ -55,6 +55,13 @@ if (fs.existsSync('nine.js')) {
   for (const m of nj.matchAll(/\bcite\('([^']+)'/g)) add('E08', m[1], 'nine.js 读数');
 }
 
+/* point.js：点的解释引擎，出处分散在 E12 / E05 / E08 / E13 */
+if (fs.existsSync('point.js')) {
+  const pt = fs.readFileSync('point.js', 'utf8');
+  for (const m of pt.matchAll(/\bcite\('(E\d\d)',\s*'([^']+)'/g)) add(m[1], m[2], 'point.js 出处');
+  for (const m of pt.matchAll(/\bep:\s*'(E\d\d)',\s*term:\s*'([^']+)'/g)) add(m[1], m[2], 'point.js 词典');
+}
+
 /* HTML：形如 <a … data-ep="E##" … data-term="…" …> 的出处链接 */
 for (const f of ['index.html']) {
   if (!fs.existsSync(f)) continue;
