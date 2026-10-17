@@ -132,3 +132,65 @@
    坐标轴会被推到页面中段、首屏看不到。给它一个稳定高度，也让 ResizeObserver 少了自激的土壤。 */
 .instrument > .stage{ align-self:start; }
 .instrument > .stage > .canvas-wrap{ flex:0 0 auto; height:clamp(20rem,54vh,34rem); }
+
+/* ---------- 画布下方的图注：九连环那一层把环名放在这里，不挤在画布上 ---------- */
+.plot-caption{
+  margin:0;
+  padding:.45rem var(--pad) .55rem;
+  border-top:1px solid var(--line-soft);
+  font-family:var(--f-mono);
+  font-size:.7rem;
+  line-height:1.7;
+  color:var(--ink-3);
+  letter-spacing:.02em;
+}
+.plot-caption b{ color:var(--program); font-weight:600; }
+
+/* ---------- 开关分组：运算 vs 换层 ---------- */
+.switch-group{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:.5rem;
+  margin:.9rem 0 .4rem;
+  padding-top:.6rem;
+  border-top:1px solid var(--line-soft);
+  font-family:var(--f-mono);
+  font-size:.64rem;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--ink-3);
+}
+.switch-group:first-child{ margin-top:0; padding-top:0; border-top:0; }
+.switch-group span{
+  font-family:var(--f-body);
+  font-size:.6rem;
+  font-weight:400;
+  letter-spacing:0;
+  text-transform:none;
+  opacity:.7;
+}
+
+/* ---------- 右栏：长篇论述的折叠条 ---------- */
+.ro-more{
+  margin:0 0 1.1rem;
+  border-bottom:1px solid var(--line-soft);
+}
+.ro-more > summary{
+  padding:.5rem 0;
+  cursor:pointer;
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  letter-spacing:.12em;
+  color:var(--ink-3);
+  list-style:none;
+}
+.ro-more > summary::-webkit-details-marker{ display:none; }
+.ro-more > summary::before{
+  content:"▸ ";
+  color:var(--program);
+}
+.ro-more[open] > summary::before{ content:"▾ "; }
+.ro-more > summary:hover{ color:var(--ink-2); }
+.ro-more .ro-block{ border-bottom:0; padding-bottom:.6rem; }

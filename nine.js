@@ -140,12 +140,12 @@
     ctx.setLineDash([]);
 
     ctx.font = f11;
-    ctx.textAlign = 'right'; ctx.textBaseline = 'bottom';
+    ctx.textAlign = 'left'; ctx.textBaseline = 'bottom';
     ctx.fillStyle = 'rgba(232,178,92,0.85)';
-    ctx.fillText('架：挂着＝神圣位面', xR, yUp - 6);
+    ctx.fillText('架 · 神圣', xL + 2, yUp - 5);
     ctx.textBaseline = 'top';
     ctx.fillStyle = 'rgba(234,107,166,0.85)';
-    ctx.fillText('垂脱：掉下去＝交易位面', xR, yDn + 6);
+    ctx.fillText('垂脱 · 交易', xL + 2, yDn + 5);
 
     /* 九个环：各自挂在架上或垂在下面 */
     ctx.font = f10;
@@ -169,12 +169,7 @@
       ctx.fillStyle = up ? 'rgba(255,238,205,0.95)' : 'rgba(234,107,166,0.95)';
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       ctx.fillText(String(r.no), px, py);
-      /* 环名：统一放在轴上方的独立一行，不跟着环上下乱跑 */
-      ctx.font = f10;
-      ctx.fillStyle = up ? 'rgba(232,178,92,0.78)' : 'rgba(234,107,166,0.65)';
-      ctx.textBaseline = 'bottom';
-      ctx.fillText(r.name, px, Y(0.40));
-      ctx.font = f10;
+      /* 环名不上画布：名字在画布下方的图注与右栏里，画布只留环号，免得挤成一排 */
     });
 
     /* 可动的环：画一个虚线圈标出来 */
@@ -257,7 +252,9 @@
         + '<p class="ro-verdict">点它即可试：上/下由你点的位置在轴上方还是下方决定。</p></div>';
     }
 
-    h += '<div class="ro-block"><h3>四条规矩（照九连环本身）</h3><dl class="ro-rows">'
+    /* 长篇论述默认收起：右栏主要用来读数，不是用来读论文 */
+    h += '<details class="quotes ro-more"><summary>四条规矩 · 为什么是「交易」 · 操作链</summary>'
+      + '<div class="ro-block"><h3>四条规矩（照九连环本身）</h3><dl class="ro-rows">'
       + row('第一环', '永远可以直接解下', '「你的心灵永远是自由的」——主体性随时可以沉到交易位面。')
       + row('第一、二环', '可以一块放下', '「第一、第二环是可以一块送到下面」：身心一起进交易状态。')
       + row('第 n 环', '前一环必须在架上', '且它前面的环必须全部解下——'
@@ -281,7 +278,8 @@
       + '「直接操纵的就是他和他的身体；间接的就是要通过身体才能操纵他的家庭」，'
       + '再通过家庭操纵家族、通过家族操纵方言区、通过方言区操纵习俗区文明区、'
       + '通过文明区操纵帝国性的权力、通过帝国性权力操纵神权。</p>'
-      + src([cite('政治的灵魂'), cite('相邻'), cite('帝国性的权利', '帝国性权力')]) + '</div>';
+      + src([cite('政治的灵魂'), cite('相邻'), cite('帝国性的权利', '帝国性权力')]) + '</div>'
+      + '</details>';
 
     return h;
   }

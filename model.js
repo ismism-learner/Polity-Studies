@@ -446,6 +446,22 @@
       requestFrame();
     }
 
+    /* 画布下方的图注：九连环模式下把九个环名排成一行（画布上只留环号） */
+    var capEl = document.getElementById('plotCaption');
+    function syncCaption() {
+      if (!capEl) return;
+      var N = global.SHUZHENG_NINE;
+      if (state.nine && N) {
+        capEl.hidden = false;
+        capEl.innerHTML = '九环（负向 X 轴，左为最外一阶）：' + N.RINGS.slice().reverse().map(function (r) {
+          return '<b>' + r.no + '</b> ' + r.name;
+        }).join(' · ');
+      } else {
+        capEl.hidden = true;
+        capEl.innerHTML = '';
+      }
+    }
+
     /* ---- 取样：按像素列取，遇间断就断开 ---- */
     function segments(m, fn, domainFn) {
       var segs = [], cur = null, p = paramsOf(m);
@@ -514,6 +530,8 @@
       for (var tx = Math.ceil(-halfX); tx <= halfX; tx++) {
         if (tx === 0) continue;
         if (X(tx) < 16 || X(tx) > W - 16) continue;
+        // 九连环模式下，负向刻度让位给环号（环自己带号），否则两套数字打架
+        if (state.nine && tx < 0) continue;
         ctx.fillText(fmt(tx, 0), X(tx), oy + 5);
       }
       [[1, '1'], [Math.E, 'e'], [Math.PI, 'π']].forEach(function (pair) {
@@ -747,7 +765,7 @@
 
       drawGrid();
       drawAxisWords(m);
-      drawBounds(m);
+      if (!state.nine) drawBounds(m);
 
       var mainColor = m.curveColor || PAL.curve;
       var segs = segments(m, m.f);
@@ -769,11 +787,10 @@
         drawCurve(dsegs, PAL.ideology, 1.6, [4, 3], progress, false);
       }
 
-      drawKeyPoints(m);
+      if (!state.nine) drawKeyPoints(m);
       drawProbe(m);
       drawSymmetry(m);
-      drawParallax(m);
-      drawViolence();
+      drawParallax(m);      drawViolence();
       drawNine();
 
       if (animDur > 0) requestFrame();
@@ -821,7 +838,18 @@
         x = found;
       }
       state.probeX = Math.max(-halfX, Math.min(halfX, x));
-      renderPanel();
+      schedulePanel();
+    }
+
+    /* 探针移动时不要每一次 pointermove 都重建整块右栏：并到一帧里做一次 */
+    var panelQueued = false;
+    function schedulePanel() {
+      if (panelQueued) return;
+      panelQueued = true;
+      global.requestAnimationFrame(function () {
+        panelQueued = false;
+        renderPanel();
+      });
     }
 
     canvas.addEventListener('pointermove', function (e) {
@@ -1022,6 +1050,7 @@
       state.nine = q.nine === '1';
       applyHalfX();
       if (swNine) swNine.setAttribute('aria-pressed', state.nine ? 'true' : 'false');
+      syncCaption();
       if (q.px !== undefined) {
         var pxv = parseFloat(q.px);
         if (isFinite(pxv)) state.probeX = Math.max(-halfX, Math.min(halfX, pxv));
@@ -1137,7 +1166,11 @@
       });
       html += '</details></div>';
 
+      /* 整个右栏重建会丢掉滚动位置：拖动探针时右栏会一直弹回顶部，读不了长文。
+         重建前后把 scrollTop 接住。 */
+      var keepScroll = readEl.scrollTop;
       readEl.innerHTML = html;
+      readEl.scrollTop = keepScroll;
 
       /* 视角与尺度改变时只重画面板，不动曲线 */
       readEl.querySelectorAll('.lens').forEach(function (b) {
@@ -1178,14 +1211,20 @@
     });
     swViolence.addEventListener('click', function () {
       state.violence = !state.violence;
+      if (state.violence) state.nine = false;      // 两层互斥：一次只看一层
       swViolence.setAttribute('aria-pressed', state.violence ? 'true' : 'false');
+      if (swNine) swNine.setAttribute('aria-pressed', 'false');
+      applyHalfX(); syncCaption();
       renderPanel(); syncHash(); replay();
     });
     if (swNine) {
       swNine.addEventListener('click', function () {
         state.nine = !state.nine;
+        if (state.nine) state.violence = false;    // 两层互斥
         swNine.setAttribute('aria-pressed', state.nine ? 'true' : 'false');
+        swViolence.setAttribute('aria-pressed', 'false');
         applyHalfX();
+        syncCaption();
         renderPanel(); syncHash(); replay();
       });
     }
@@ -1197,8 +1236,10 @@
       }
       state.deriv = false; state.inverse = false; state.parallax = false; state.violence = false;
       state.nine = false;
+      if (global.SHUZHENG_NINE) global.SHUZHENG_NINE.reset();   // 九环也回到全挂上
       applyHalfX();
       if (swNine) swNine.setAttribute('aria-pressed', 'false');
+      syncCaption();
       swDeriv.setAttribute('aria-pressed', 'false');
       swInverse.setAttribute('aria-pressed', 'false');
       swViolence.setAttribute('aria-pressed', 'false');

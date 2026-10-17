@@ -48,6 +48,7 @@
     <div id="paramBox" class="param-box"></div>
 
     <div class="switches">
+      <p class="switch-group">同一张图上的运算</p>
       <button type="button" id="swDeriv" class="switch" aria-pressed="false">
         <span class="switch-name">求导</span>
         <span class="switch-note">意识形态化</span>
@@ -60,17 +61,20 @@
         <span class="switch-name">视差</span>
         <span class="switch-note">左翼的双重视图</span>
       </button>
+
+      <p class="switch-group">换一层看<span>互斥</span></p>
       <button type="button" id="swViolence" class="switch" aria-pressed="false">
         <span class="switch-name">虚数轴</span>
-        <span class="switch-note">暴力与代价 · 权力学</span>
+        <span class="switch-note">第三轴 · 权力学</span>
       </button>
       <button type="button" id="swNine" class="switch" aria-pressed="false">
         <span class="switch-name">九连环</span>
         <span class="switch-note">X 轴左侧的九个环节</span>
       </button>
+
       <button type="button" id="btnReset" class="switch switch-plain">
         <span class="switch-name">复位</span>
-        <span class="switch-note">回到初始曲线</span>
+        <span class="switch-note">关掉全部层，回到初始曲线</span>
       </button>
     </div>
   </div>
@@ -80,6 +84,7 @@
       <canvas id="plot" role="img" aria-label="纲领化与行动性平面上的政治函数模型图"></canvas>
       <p class="axis-caption axis-caption-x"><span class="k k-program">纲领化</span> →</p>
     </div>
+    <p class="plot-caption" id="plotCaption" hidden></p>
     <div class="stage-foot">
       <div class="legend" aria-hidden="true">
         <span><i class="dot dot-curve"></i>政治模型</span>
