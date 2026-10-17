@@ -49,6 +49,12 @@ if (fs.existsSync(PJ)) {
   for (const m of pj.matchAll(/\bcite\('([^']+)'/g)) add('E02', m[1], 'power.js 读数');
 }
 
+/* nine.js：X 轴左侧那一层的出处，指 E08 */
+if (fs.existsSync('nine.js')) {
+  const nj = fs.readFileSync('nine.js', 'utf8');
+  for (const m of nj.matchAll(/\bcite\('([^']+)'/g)) add('E08', m[1], 'nine.js 读数');
+}
+
 /* HTML：形如 <a … data-ep="E##" … data-term="…" …> 的出处链接 */
 for (const f of ['index.html']) {
   if (!fs.existsSync(f)) continue;

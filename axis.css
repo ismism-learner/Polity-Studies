@@ -96,3 +96,39 @@
   .ax-head,.ax-canvas{ flex:0 0 auto; }
   .ax-canvas{ height:11rem; width:100%; }
 }
+
+/* ---------- 九连环（E08）那一层的链式显示 ---------- */
+.nine-chain{
+  display:flex;
+  flex-wrap:wrap;
+  gap:.18rem;
+  margin:.55rem 0 .35rem;
+}
+.nine-ring{
+  display:inline-flex;
+  flex-direction:column;
+  align-items:center;
+  gap:.02rem;
+  min-width:1.5rem;
+  padding:.16rem .08rem;
+  border:1px solid var(--line);
+  border-radius:2px;
+  font-family:var(--f-mono);
+  font-size:.66rem;
+  line-height:1.1;
+  color:var(--ink-2);
+}
+.nine-ring i{ font-style:normal; font-size:.54rem; color:var(--ink-3); }
+.nine-off{ border-color:var(--line-soft); background:var(--bg-3); color:var(--ink-3); }
+.nine-off i{ color:var(--ink-3); }
+.nine-on{ border-color:var(--program); color:var(--program); }
+.nine-on i{ color:var(--program); }
+.nine-next{ border-color:var(--action); border-style:dashed; color:var(--action); }
+.nine-next i{ color:var(--action); }
+.nine-far{ opacity:.5; }
+
+/* ---------- 模型视图：画布不再跟着右栏一起拉高 ----------
+   权力学层与九连环层都会让右栏长出一大截；若画布继续 flex:1 撑满栅格行，
+   坐标轴会被推到页面中段、首屏看不到。给它一个稳定高度，也让 ResizeObserver 少了自激的土壤。 */
+.instrument > .stage{ align-self:start; }
+.instrument > .stage > .canvas-wrap{ flex:0 0 auto; height:clamp(20rem,54vh,34rem); }

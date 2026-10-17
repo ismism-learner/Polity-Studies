@@ -314,6 +314,7 @@
     inverse: false,
     parallax: false,
     violence: false,
+    nine: false,
     probeX: null,
     pinned: false,
     dragging: false,
@@ -433,6 +434,16 @@
       scale = W / (2 * halfX);
       ox = W / 2; oy = H / 2;
       yMax = (H / 2) / scale;
+    }
+
+    /* 九连环那一层要把 9 个环节摆到负向 X 轴上，需要把横向视野放到 ±9；关掉就回到 ±5 */
+    function applyHalfX() {
+      var want = state.nine ? 9 : 5;
+      if (halfX === want) return;
+      halfX = want;
+      W = -1; H = -1;          // 逼 layout() 重算，否则尺寸未变会被早退挡住
+      layout();
+      requestFrame();
     }
 
     /* ---- 取样：按像素列取，遇间断就断开 ---- */
@@ -709,6 +720,16 @@
       }, state.unit);
     }
 
+    function drawNine() {
+      if (!state.nine) return;
+      var N = global.SHUZHENG_NINE;
+      if (!N) return;
+      N.paint(ctx, {
+        X: X, Y: Y, W: W, H: H, ox: ox, oy: oy, yMax: yMax,
+        PAL: PAL, FONT: FONT, labelChip: labelChip
+      });
+    }
+
     function draw(ts) {
       var m = modelById(state.id);
       var progress = 1;
@@ -753,6 +774,7 @@
       drawSymmetry(m);
       drawParallax(m);
       drawViolence();
+      drawNine();
 
       if (animDur > 0) requestFrame();
     }
@@ -844,6 +866,7 @@
     var swInverse = document.getElementById('swInverse');
     var swParallax = document.getElementById('swParallax');
     var swViolence = document.getElementById('swViolence');
+    var swNine = document.getElementById('swNine');
     var btnReset = document.getElementById('btnReset');
 
     function buildLibrary() {
@@ -927,6 +950,8 @@
       if (state.inverse) parts.push('inv=1');
       if (state.parallax) parts.push('par=1');
       if (state.violence) parts.push('vio=1');
+      if (state.nine) parts.push('nine=1');
+      if (state.probeX !== null && state.probeX !== undefined) parts.push('px=' + state.probeX);
       var on = [];
       for (var l in state.lenses) if (Object.prototype.hasOwnProperty.call(state.lenses, l) && state.lenses[l]) on.push(l);
       if (on.length) parts.push('lens=' + on.join(','));
@@ -983,6 +1008,13 @@
       state.inverse = q.inv === '1';
       state.parallax = q.par === '1' && !!m.parallax;
       state.violence = q.vio === '1';
+      state.nine = q.nine === '1';
+      applyHalfX();
+      if (swNine) swNine.setAttribute('aria-pressed', state.nine ? 'true' : 'false');
+      if (q.px !== undefined) {
+        var pxv = parseFloat(q.px);
+        if (isFinite(pxv)) state.probeX = Math.max(-halfX, Math.min(halfX, pxv));
+      }
       swDeriv.setAttribute('aria-pressed', state.deriv ? 'true' : 'false');
       swInverse.setAttribute('aria-pressed', state.inverse ? 'true' : 'false');
       swParallax.setAttribute('aria-pressed', state.parallax ? 'true' : 'false');
@@ -1032,6 +1064,12 @@
         } else {
           html += '<div class="ro-block"><h3>第三轴</h3><p class="ro-alert">i\u00b2 = \u22121 意味着一切行动都有反作用的代价。加上这一轴，模型就成了统治权力的模型，作者声明：这就不是庶政学了，是权力学。</p></div>';
         }
+      }
+
+      /* ---- X 轴左侧：九连环（E08）。它读横轴，与第三轴那一层并列。 ---- */
+      if (state.nine) {
+        var NINE = global.SHUZHENG_NINE;
+        if (NINE) html += NINE.toHTML(NINE.read(x, y));
       }
 
       /* ---- 专家策略系统：视角与尺度是可选的那一层 ---- */
@@ -1132,6 +1170,14 @@
       swViolence.setAttribute('aria-pressed', state.violence ? 'true' : 'false');
       renderPanel(); syncHash(); replay();
     });
+    if (swNine) {
+      swNine.addEventListener('click', function () {
+        state.nine = !state.nine;
+        swNine.setAttribute('aria-pressed', state.nine ? 'true' : 'false');
+        applyHalfX();
+        renderPanel(); syncHash(); replay();
+      });
+    }
     btnReset.addEventListener('click', function () {
       var m = modelById(state.id);
       if (m.param) {
@@ -1139,6 +1185,9 @@
         buildParams();
       }
       state.deriv = false; state.inverse = false; state.parallax = false; state.violence = false;
+      state.nine = false;
+      applyHalfX();
+      if (swNine) swNine.setAttribute('aria-pressed', 'false');
       swDeriv.setAttribute('aria-pressed', 'false');
       swInverse.setAttribute('aria-pressed', 'false');
       swViolence.setAttribute('aria-pressed', 'false');
