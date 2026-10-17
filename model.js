@@ -831,6 +831,17 @@
       requestFrame();
     });
     canvas.addEventListener('pointerdown', function (e) {
+      /* 九连环层：点在环上就是「试着把这一环挂上去 / 放下来」，规则由 nine.js 拦 */
+      if (state.nine && global.SHUZHENG_NINE) {
+        var rectN = canvas.getBoundingClientRect();
+        var nx = invX(e.clientX - rectN.left);
+        var ny = (oy - (e.clientY - rectN.top)) / scale;
+        if (global.SHUZHENG_NINE.pick(nx, ny) !== null) {
+          global.SHUZHENG_NINE.tryMove(nx, ny);
+          renderPanel(); syncHash(); replay();
+          return;
+        }
+      }
       state.pinned = true;
       state.dragging = true;
       canvas.setPointerCapture(e.pointerId);

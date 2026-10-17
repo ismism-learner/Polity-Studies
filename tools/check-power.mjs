@@ -125,4 +125,37 @@ else {
   ok(!threw, '坐标缺失 / NaN 不抛异常');
 }
 
-process.exit(bad.length + engineBad ? 1 : 0);
+/* ---------- 三、九连环的状态机（E08） ---------- */
+const N = load('nine.js', 'SHUZHENG_NINE');
+let nineBad = 0;
+console.log('\n三、九连环状态机（nine.js）');
+if (!N) { console.log('  FAIL 无法加载 nine.js'); nineBad++; }
+else {
+  const ok9 = (cond, msg) => { console.log((cond ? '  ok   ' : '  FAIL ') + msg); if (!cond) nineBad++; };
+  const mv = () => N.movable().join(',');
+  const b = () => N.state.bits.map((x) => x ? '上' : '下').join('');
+
+  N.reset();
+  ok9(mv() === '1,2', '九环全挂上时，可动的只有第 1、2 环（' + b() + ' → ' + mv() + '）');
+  ok9(N.tryMove(-3, -1).ok === false, '第 4 环不能直接解下：前面还有环挂在架上');
+  ok9(N.tryMove(-2, 1).ok === false, '第 3 环不能直接挂上：第 1 环还在架上');
+
+  N.tryMove(0, -1);                       // 第 1 环落下
+  ok9(b() === '下上上上上上上上上', '第 1 环可以直接解下 → ' + b());
+  ok9(mv() === '1,3', '第 1 环落下之后，第 3 环才可动（' + mv() + '）');
+  ok9(N.tryMove(-1, -1).ok === false, '第 2 环此时不能落下：前一环（第 1 环）已垂下');
+
+  N.tryMove(-2, 1);                       // 第 3 环挂上
+  ok9(b() === '下上上上上上上上上' || b() === '下上上上上上上上上', '第 3 环挂上后仍是一环在下：' + b());
+
+  N.reset();
+  N.state.bits[0] = false;                // 手工造出文稿的例子：第 7 环在上、1..6 在下
+  for (let i = 1; i <= 5; i++) N.state.bits[i] = false;
+  ok9(b() === '下下下下下下上上上', '文稿的例子：第七环挂在上面，下面六环垂脱 → ' + b());
+  ok9(mv().split(',').every((n) => Number(n) >= 1), '即使大半垂下，可动环仍由规则决定：' + mv());
+
+  N.reset();
+  ok9(b() === '上上上上上上上上上', '复位回到九环全挂上');
+}
+
+process.exit(bad.length + engineBad + nineBad ? 1 : 0);
